@@ -1,0 +1,37 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+.polMenu {
+  overflow: hidden;
+  width: 100%;
+  padding: 0px;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  border-radius: 5px;
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+.polMenuTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.polMenuContent {
+  font-size: 16px;
+}
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link);
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered);
+    }
+  }
+}
+:global {
+  .polMenuRoot div[data-automation-id="CanvasControl"] {
+    margin: 0px !important;
+  }
+}

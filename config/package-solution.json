@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "pol-menu-client-side-solution",
+    "id": "86c31ec5-a6d3-4451-a012-2240e3ff176d",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "pol-menu description"
+      },
+      "longDescription": {
+        "default": "pol-menu description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "pol-menu Feature",
+        "description": "The feature that activates elements of the pol-menu solution.",
+        "id": "b1d47965-2c65-485a-8a8f-5ce2de97b749",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/pol-menu.sppkg"
+  }
+}

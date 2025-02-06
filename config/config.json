@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "pol-menu-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/polMenu/PolMenuWebPart.js",
+          "manifest": "./src/webparts/polMenu/PolMenuWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PolMenuWebPartStrings": "lib/webparts/polMenu/loc/{locale}.js"
+  }
+}
