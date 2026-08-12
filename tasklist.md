@@ -7,48 +7,65 @@ Sesjon 2026-08-12. Plan: `~/.claude/plans/fluffy-spinning-dolphin.md`.
 
 | # | Oppgåve | Resultat |
 |---|---------|----------|
-| 1 | `requiresCustomScript: true` | Web parten er no gated til site-samlingar der custom script er på |
+| 1 | `requiresCustomScript: true` | Web parten er gated til site-samlingar der custom script er på |
 | 2 | `components/htmlSource.ts` (ny) | Kjeldevalidering + DOMPurify-sanitering |
 | 3 | `PolMenu.tsx` livssyklus | `componentDidUpdate`, `AbortController`, `response.ok`, feilmelding i UI |
 | 4 | `allowedHosts`-property | Nytt felt med `onGetErrorMessage`-validering, `dataVersion` 1.1 |
 | 5 | Daudkode fjerna | Ubrukte props, `onInit`, `_getEnvironmentMessage`, daude SCSS-klasser, `@fluentui/react` |
-| 6 | SPFx 1.20.0 → 1.23.2 | TypeScript 5.3.3, Node 22, rein lockfil |
+| 6 | SPFx 1.20.0 → 1.23.2 | TypeScript 5.8, Node 22 |
+| 7 | Gulp → **Heft** | Heile den sårbare byggekjeda fjerna |
 
 Utover planen: redirect-omgåing tetta (`assertAllowedResponseOrigin`) — ein same-origin URL som
 redirecta ut av tenanten slapp forbi allow-lista, sidan valideringa berre såg adressa før redirect.
 
 ## Målt effekt
 
-| | Før | Etter |
-|---|---|---|
-| `npm audit --omit=dev` (det som blir sendt til nettlesaren) | 18 funn, 2 høge | **0** |
-| `npm audit` totalt | 146 | 75 — alle `dev=true` |
-| Bundle | `@fluentui/react` med, ubrukt | 36.9 KB, DOMPurify inne, fluentui ute |
+| Byggeveg | Totalt | Kritiske | Høge |
+|---|---|---|---|
+| Opphavleg repo (SPFx 1.20 + rush-stack-compiler-4.7) | 131 | 7 | 36 |
+| Første forsøk (SPFx 1.23.2 + gulp) | 75 | 2 | 26 |
+| **No (SPFx 1.23.2 + heft)** | **9** | **0** | **0** |
+
+`npm audit --omit=dev`: **0**. Dei 9 som står att er alle moderate og kjem frå
+`webpack-dev-server`-stacken til den lokale serve-kommandoen. Ingen av dei har runtime-scope.
+
+### Rettelse frå første runde
+
+Første forsøk valde gulp-vegen fordi repoet allereie brukte gulp. Det var feil: SPFx 1.23.2 har to
+offisielle byggevegar (`useHeft` og `useGulp` i generatorens `lib/common/dependencies.json`), og
+**heft er standarden** — generatoren lagar ikkje lenger nokon `gulpfile.js`.
+
+Gulp-vegen drog inn `rush-stack-compiler-5.3` (v0.1.0), som igjen drog inn `api-extractor` 7.15.2
+frå 2021. Dependabot opna 26 nye varsel på den commiten, av dei 7 høge og 1 kritisk. At dei var
+`scope=development` gjer dei ikkje harmlause: ein kompromittert byggeavhengigheit kan injisere kode
+i bundlen. Heft fjernar heile kjeda (gulp, express, request, node-forge, form-data).
 
 ## Verifisert
 
 - 46/46 automatiske sjekkar mot kompilert `lib/` (XSS-payloadar, `<style>`-bevaring, CSS-skrubbing,
   URL-avvising, allow-liste, redirect-blokkering).
-- `gulp bundle --ship` og `gulp package-solution --ship`: 0 åtvaringar, `.sppkg` bygd.
-- `requiresCustomScript` når faktisk fram til pakka: A/B-bygg viser at `false` utelet attributtet
-  heilt, `true` gir `ReturnIfCustomScriptDisabled="false"` i WebPart-XML-en.
+- `heft build --production` og `heft package-solution --production`: reint, `.sppkg` bygd.
+- `requiresCustomScript` når fram til pakka: A/B-bygg viser at `false` utelet attributtet heilt,
+  `true` gir `ReturnIfCustomScriptDisabled="false"` i WebPart-XML-en.
+- Bundle: 36.9 KB, DOMPurify inne, `@fluentui/react` ute.
+- Byggeoppsettet er samanlikna mot eit ekte scaffold frå `@microsoft/generator-sharepoint@1.23.2`;
+  `config/rig.json`, `config/sass.json`, `config/typescript.json` og `tsconfig.json` er identiske.
 
 To fallgruver som vart fanga undervegs:
 
-1. DOMPurify droppa `<style>` — men berre når fila *startar* med den, fordi HTML-parsaren løftar
-   ein leiande `<style>` opp i `<head>`, som DOMPurify kastar. Menyfiler startar rutinemessig med
+1. DOMPurify droppa `<style>` — men berre når fila *startar* med den, fordi HTML-parsaren løftar ein
+   leiande `<style>` opp i `<head>`, som DOMPurify kastar. Menyfiler startar rutinemessig med
    stilarket, så dette ville brote reelle menyar og samtidig passert ein naiv test. Løyst ved å
    parse inne i ein wrapper som blir pakka ut igjen.
-2. `FORBID_CONTENTS` trong **ikkje** overstyrast. Den første diagnosen peika dit, men målinga viste
-   at `<style>` etter innhald overlever med standardkonfigurasjonen. Konfigurasjonen vart difor
-   ikkje svekka utan grunn.
+2. `FORBID_CONTENTS` trong **ikkje** overstyrast; måling viste at `<style>` etter innhald overlever
+   med standardkonfigurasjonen.
 
 ## Ikkje verifisert — krev tenant
 
 Testinga er køyrd i Node med jsdom mot den kompilerte modulen. **jsdom er ikkje ein nettlesar**, og
-ingenting er rulla ut. Desse punkta frå planen står framleis att:
+ingenting er rulla ut.
 
-- [ ] `gulp serve` → workbench: at legitim meny (HTML + CSS) rendrar som før
+- [ ] `heft start` → workbench: at legitim meny (HTML + CSS) rendrar som før
 - [ ] At XSS-payloadane er inerte i ein ekte nettlesar, ikkje berre i jsdom
 - [ ] At endring av URL i property-panelet oppdaterer innhaldet utan sidelasting
 - [ ] At property-panelet viser feilmeldingane som venta
@@ -57,11 +74,13 @@ ingenting er rulla ut. Desse punkta frå planen står framleis att:
 
 ## Merknader
 
-- Krev Node 22.14+ (`.nvmrc` lagt til). SPFx 1.23.2 støttar ikkje nyare majors.
-- Dei 75 resterande audit-funna er byggekjeda til SPFx sjølv (gulp 4, express, request). Microsoft
-  leverer `sp-build-web@1.23.2` slik; dei når aldri nettlesaren.
+- Krev Node 22.14+ (`.nvmrc`). Byggekommandoar: `npm run build:ship`, `npm run package`,
+  `npm run serve`.
+- ESLint er flytta til flat config (`eslint.config.js`) mot `@microsoft/eslint-config-spfx`
+  sin `flat-profiles/react`. `.eslintrc.js` og `gulpfile.js` er sletta.
 - `@microsoft/sp-*` er med i `package.json` sjølv om dei ikkje blir importerte direkte — dei blir
-  lasta av SharePoint sin runtime-loader og kostar null bytes i bundlen, så fjerning gir ingenting
-  og kan bryte bygget.
-- Testsuiten ligg i scratchpad, ikkje i repoet. Å leggje inn eit testrammeverk låg utanfor planen.
-- Ingenting er commita.
+  lasta av SharePoint sin runtime-loader og kostar null bytes i bundlen.
+- Gulp la att `src/**/*.module.scss.ts`. Filene er gitignorerte, så dei dukka ikkje opp i
+  `git status`, men heft kompilerte dei og bygget brast. Slett dei om bygget klagar på
+  `Can't resolve './*.module.css'`.
+- Testsuiten ligg i scratchpad, ikkje i repoet.

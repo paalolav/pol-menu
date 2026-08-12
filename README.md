@@ -33,7 +33,7 @@ Because this web part renders author-supplied markup, its manifest sets `require
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
 | 1.0     | Febryar 6, 2025  | Initial release |
-| 1.1     | August 12, 2026  | Sanitize embedded HTML, restrict content sources, upgrade to SPFx 1.23.2 |
+| 1.1     | August 12, 2026  | Sanitize embedded HTML, restrict content sources, upgrade to SPFx 1.23.2 on the Heft toolchain |
 
 ## Disclaimer
 
@@ -48,18 +48,21 @@ Because this web part renders author-supplied markup, its manifest sets `require
 - in the command-line run:
 
 ```bash
+nvm use
 npm install
 ```
 
 ```bash
-gulp bundle --ship
-gulp package-solution --ship
+npm run build:ship
+npm run package
 ```
 
-# Watching the code 
+# Watching the code
 ```bash
-gulp serve
+npm run serve
 ```
+
+This solution uses the [Heft](https://heft.rushstack.io/) toolchain, which is the default for SPFx 1.23. The underlying commands are `heft build --production`, `heft package-solution --production` and `heft start`; run `npx heft --help` for the full list.
 
 ## Features
 
