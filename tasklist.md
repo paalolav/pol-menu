@@ -29,6 +29,17 @@ redirecta ut av tenanten slapp forbi allow-lista, sidan valideringa berre såg a
 `npm audit --omit=dev`: **0**. Dei 9 som står att er alle moderate og kjem frå
 `webpack-dev-server`-stacken til den lokale serve-kommandoen. Ingen av dei har runtime-scope.
 
+Stadfesta mot Dependabot etter push (ikkje berre `npm audit` lokalt):
+
+| Dependabot | Før | Etter gulp-commiten | No |
+|---|---|---|---|
+| Opne varsel | 32 | 32 (26 av dei nye) | **2** |
+| Kritiske | 1 | 1 | **0** |
+| Høge | 10 | 7 nye | **0** |
+| Runtime-scope | 0 | 0 | **0** |
+
+66 varsel vart automatisk lukka. Dei to som står att er moderate og dev-only (`qs`, `uuid`).
+
 ### Rettelse frå første runde
 
 Første forsøk valde gulp-vegen fordi repoet allereie brukte gulp. Det var feil: SPFx 1.23.2 har to
