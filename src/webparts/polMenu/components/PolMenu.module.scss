@@ -1,4 +1,3 @@
-@import '~@fluentui/react/dist/sass/References.scss';
 .polMenu {
   overflow: hidden;
   width: 100%;
@@ -6,9 +5,6 @@
   color: "[theme:bodyText, default: #323130]";
   color: var(--bodyText);
   border-radius: 5px;
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
 }
 .polMenuTitle {
   font-size: 24px;
@@ -18,17 +14,16 @@
 .polMenuContent {
   font-size: 16px;
 }
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link);
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered);
-    }
-  }
+.polMenuError {
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  background-color: "[theme:neutralLighter, default: #f3f2f1]";
+  background-color: var(--neutralLighter);
+  border: 1px solid "[theme:neutralQuaternary, default: #d0d0d0]";
+  border: 1px solid var(--neutralQuaternary);
 }
 :global {
   .polMenuRoot div[data-automation-id="CanvasControl"] {

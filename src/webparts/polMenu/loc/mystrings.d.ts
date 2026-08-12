@@ -1,16 +1,12 @@
 declare interface IPolMenuWebPartStrings {
   PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  AppLocalEnvironmentSharePoint: string;
-  AppLocalEnvironmentTeams: string;
-  AppLocalEnvironmentOffice: string;
-  AppLocalEnvironmentOutlook: string;
-  AppSharePointEnvironment: string;
-  AppTeamsTabEnvironment: string;
-  AppOfficeEnvironment: string;
-  AppOutlookEnvironment: string;
-  UnknownEnvironment: string;
+  ContentGroupName: string;
+  HtmlFilePathFieldLabel: string;
+  HtmlFilePathFieldDescription: string;
+  TitleFieldLabel: string;
+  AllowedHostsFieldLabel: string;
+  AllowedHostsFieldDescription: string;
+  AllowedHostsFieldError: string;
 }
 
 declare module 'PolMenuWebPartStrings' {

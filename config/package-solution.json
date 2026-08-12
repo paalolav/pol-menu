@@ -3,23 +3,23 @@
   "solution": {
     "name": "pol-menu-client-side-solution",
     "id": "86c31ec5-a6d3-4451-a012-2240e3ff176d",
-    "version": "1.0.0.0",
+    "version": "1.1.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
+      "name": "Pål Olav Loftesnes",
+      "websiteUrl": "https://www.paalolav.no",
+      "privacyUrl": "https://www.paalolav.no",
+      "termsOfUseUrl": "https://www.paalolav.no",
       "mpnId": "Undefined-1.20.0"
     },
     "metadata": {
       "shortDescription": {
-        "default": "pol-menu description"
+        "default": "Embed your own HTML and CSS on SharePoint pages."
       },
       "longDescription": {
-        "default": "pol-menu description"
+        "default": "Web part that renders sanitized HTML and CSS from a file on the site. Useful for custom menus and richer embeds than the standard Embed web part."
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -30,7 +30,7 @@
         "title": "pol-menu Feature",
         "description": "The feature that activates elements of the pol-menu solution.",
         "id": "b1d47965-2c65-485a-8a8f-5ce2de97b749",
-        "version": "1.0.0.0"
+        "version": "1.1.0.0"
       }
     ]
   },
