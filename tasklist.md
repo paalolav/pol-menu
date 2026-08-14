@@ -1,7 +1,11 @@
 # Tasklist — tryggleik og opprydding
 
-Status: kodearbeidet er ferdig. Utrulling og testing i tenant står att.
-Sesjon 2026-08-12. Plan: `~/.claude/plans/fluffy-spinning-dolphin.md`.
+Status: kodearbeidet er ferdig og pusha. **Utrulling og testing i tenant står att** — sjå
+sjekklista nedst; det er der arbeidet held fram.
+
+Sesjon 2026-08-12, sist stadfesta 2026-08-14 (ingen endring: `main` = `origin/main` på `5d6d085`,
+Dependabot 2 opne, begge moderate og dev-only, `npm audit --omit=dev` = 0).
+Plan: `~/.claude/plans/fluffy-spinning-dolphin.md`.
 
 ## Gjort
 
