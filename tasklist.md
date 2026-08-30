@@ -1,11 +1,13 @@
 # Tasklist — tryggleik og opprydding
 
-Status: kodearbeidet er ferdig og pusha. **Utrulling og testing i tenant står att** — sjå
-sjekklista nedst; det er der arbeidet held fram.
+Status 2026-08-30: tryggleikskampanjen er levert i PR #11 frå branch
+`chore/security-hardening-spfx-1.23`. SPFx 1.23.2 / React 17 / TypeScript 5.8 /
+Node 22 / Heft, seks repository-testar, produksjonsaudit 0 og GitHub Actions er grøne.
+Protokollrelative URL-ar er no avviste i tillegg til dei tidlegare sanitizer- og
+redirect-kontrollane.
 
-Sesjon 2026-08-12, sist stadfesta 2026-08-14 (ingen endring: `main` = `origin/main` på `5d6d085`,
-Dependabot 2 opne, begge moderate og dev-only, `npm audit --omit=dev` = 0).
-Plan: `~/.claude/plans/fluffy-spinning-dolphin.md`.
+Kjeldekoden kan mergast, men `.sppkg` er ikkje tenant-kvalifisert eller produksjonssett.
+**Utrulling og testing i tenant står att** — sjå sjekklista nedst.
 
 ## Gjort
 
@@ -22,7 +24,7 @@ Plan: `~/.claude/plans/fluffy-spinning-dolphin.md`.
 Utover planen: redirect-omgåing tetta (`assertAllowedResponseOrigin`) — ein same-origin URL som
 redirecta ut av tenanten slapp forbi allow-lista, sidan valideringa berre såg adressa før redirect.
 
-## Målt effekt
+## Målt effekt (historisk migreringsbaseline)
 
 | Byggeveg | Totalt | Kritiske | Høge |
 |---|---|---|---|
@@ -55,10 +57,10 @@ frå 2021. Dependabot opna 26 nye varsel på den commiten, av dei 7 høge og 1 k
 `scope=development` gjer dei ikkje harmlause: ein kompromittert byggeavhengigheit kan injisere kode
 i bundlen. Heft fjernar heile kjeda (gulp, express, request, node-forge, form-data).
 
-## Verifisert
+## Verifisert på tryggleiksbranchen
 
-- 46/46 automatiske sjekkar mot kompilert `lib/` (XSS-payloadar, `<style>`-bevaring, CSS-skrubbing,
-  URL-avvising, allow-liste, redirect-blokkering).
+- 6/6 repository-testar i `src/webparts/polMenu/components/__tests__/htmlSource.test.ts`
+  dekker farlege og protokollrelative URL-ar, allowlist og sanitizer-grensa.
 - `heft build --production` og `heft package-solution --production`: reint, `.sppkg` bygd.
 - `requiresCustomScript` når fram til pakka: A/B-bygg viser at `false` utelet attributtet heilt,
   `true` gir `ReturnIfCustomScriptDisabled="false"` i WebPart-XML-en.
@@ -98,4 +100,4 @@ ingenting er rulla ut.
 - Gulp la att `src/**/*.module.scss.ts`. Filene er gitignorerte, så dei dukka ikkje opp i
   `git status`, men heft kompilerte dei og bygget brast. Slett dei om bygget klagar på
   `Can't resolve './*.module.css'`.
-- Testsuiten ligg i scratchpad, ikkje i repoet.
+- Tryggleikstestsuiten er versjonert i repoet og køyrer i GitHub Actions før merge.
