@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
  * Schemes that may appear in href/src attributes of the embedded markup.
  * Anything else (javascript:, data:, blob:, vbscript:) is dropped by DOMPurify.
  */
-const ALLOWED_URI_REGEXP: RegExp = /^(https?|mailto|tel|#|\/)/i;
+const ALLOWED_URI_REGEXP: RegExp = /^(?:(?:https?|mailto|tel):|#|\/(?!\/))/i;
 
 /**
  * CSS constructs that have historically been able to execute script. Every
