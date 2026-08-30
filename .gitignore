@@ -17,6 +17,7 @@ temp
 
 # Coverage directory used by tools like istanbul
 coverage
+jest-output
 
 # OSX
 .DS_Store
