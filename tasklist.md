@@ -1,12 +1,12 @@
 # Tasklist — tryggleik og opprydding
 
-Status 2026-08-30: tryggleikskampanjen er levert i PR #11 frå branch
-`chore/security-hardening-spfx-1.23`. SPFx 1.23.2 / React 17 / TypeScript 5.8 /
+Status 2026-08-30: tryggleikskampanjen er squash-merga via PR #11 til `main`
+(`1a30ffe`). SPFx 1.23.2 / React 17 / TypeScript 5.8 /
 Node 22 / Heft, seks repository-testar, produksjonsaudit 0 og GitHub Actions er grøne.
 Protokollrelative URL-ar er no avviste i tillegg til dei tidlegare sanitizer- og
 redirect-kontrollane.
 
-Kjeldekoden kan mergast, men `.sppkg` er ikkje tenant-kvalifisert eller produksjonssett.
+Kjeldekoden er merga, men `.sppkg` er ikkje tenant-kvalifisert eller produksjonssett.
 **Utrulling og testing i tenant står att** — sjå sjekklista nedst.
 
 ## Gjort
